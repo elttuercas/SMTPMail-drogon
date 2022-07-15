@@ -2,20 +2,17 @@
 Simple Mail for the Drogon framework.
 
 It is made as a plugin for the [drogon](https://github.com/an-tao/drogon) framework.
-It can be included into the drogon build with little 
+It can be included into the drogon build with little
 modification of the class declaration.
-## Update [13-09-2021] Add support HTML content
+## Updates 
+- **[ 13-06-2022 ] Fixed vulnerability issues reported by [Sam](https://snoopysecurity.github.io/about).**
+- [ 13-09-2021 ] Added [HTML content support](https://github.com/ihmc3jn09hk/SMTPMail-drogon/pull/1).
+- [ 23-12-2020 ] Added DNS support.
 
-Added [HTML content support](https://github.com/ihmc3jn09hk/SMTPMail-drogon/pull/1).
-
-## Update [23-12-2020] Add DNS support
-
-Added DNS support. 
-
-## Appreciations
+## Acknowledgement
 * The implementation takes SMTPClient for Qt from [kelvins](https://github.com/kelvins/SMTPClient) as reference.
-* There requires a delay SSL encryption from the Tcp-socket (named TcpClient in trantor/drogon) and the major 
-author of drogon [reponsed](https://github.com/an-tao/drogon/issues/346) quickly. 
+* There requires a delay SSL encryption from the Tcp-socket (named TcpClient in trantor/drogon) and the major
+author of drogon [reponsed](https://github.com/an-tao/drogon/issues/346) quickly.
 
 ## Usage
 Download to the plugin directory of the target drogon app, E.g. ~/drogon-app/plugins
@@ -26,7 +23,7 @@ $ cp SMTPMail-drogon/SMTPMail.* ~/drogon-app/plugins
 
 * _Be aware of add the plugin into the config.json. Set the "name" field to "SMTPMail"_
 
-Add the reference header and get the plugin from the app(), E.g. 
+Add the reference header and get the plugin from the app(), E.g.
 
 ```c++
 ...
@@ -45,13 +42,14 @@ auto id = smtpmailPtr->sendEmail(
           "Testing SMTPMail Function",  //Email Subject/Title
           "Hello from drogon plugin",   //Content
           "mailer@something.com",       //Login user
-          "123456"                      //User password
+          "123456",                     //User password
+          false                         //Is HTML content
           );
 ...
 //Or get noted when email is sent
 ...
 void callback(const std::string &msg)
-{ 
+{
   LOG_INFO << msg; /*Output e.g. "EMail sent. ID : 96ESERVDDFH17588ECF0C7B00326E3"*/
   /*Do whatever you like*/
 }
@@ -66,6 +64,7 @@ auto id = smtpmailPtr->sendEmail(
           "Hello from drogon plugin",   //Content
           "mailer@something.com",       //Login user
           "123456",                     //User password
+          false,                        //Is HTML content
           callback                      //Callback
           );
 ```
